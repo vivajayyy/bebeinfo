@@ -27,38 +27,38 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PostImage {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    @Setter
-    private Post post;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "post_id", nullable = false)
+		@Setter
+		private Post post;
 
-    @Column(nullable = false)
-    private String originalFileName;
+		@Column(nullable = false)
+		private String originalFileName;
 
-    @Column(nullable = false)
-    private String storedFileName;
+		@Column(nullable = false)
+		private String storedFileName;
 
-    @Column(nullable = false)
-    private String fileUrl;
+		@Column(nullable = false)
+		private String fileUrl;
 
-    @Column(nullable = false)
-    private String contentType;
+		@Column(nullable = false)
+		private String contentType;
 
-    @Column(nullable = false)
-    private long fileSize;
+		@Column(nullable = false)
+		private long fileSize;
 
-    @Column(nullable = false)
-    private int orderNum;
+		@Column(nullable = false)
+		private int orderNum;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 } 

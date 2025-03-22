@@ -35,93 +35,93 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Comment {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "post_id", nullable = false)
+		private Post post;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "parent_id")
-    private Comment parent;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "parent_id")
+		private Comment parent;
 
-    @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<Comment> replies = new ArrayList<>();
+		@OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+		@Builder.Default
+		private List<Comment> replies = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id", nullable = false)
+		private User author;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+		@Column(nullable = false, columnDefinition = "TEXT")
+		private String content;
 
-    @Column(nullable = false)
-    private long likeCount;
+		@Column(nullable = false)
+		private long likeCount;
 
-    @Column(nullable = false)
-    private int depth;
+		@Column(nullable = false)
+		private int depth;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private Status status = Status.ACTIVE;
+		@Enumerated(EnumType.STRING)
+		@Column(nullable = false)
+		@Builder.Default
+		private Status status = Status.ACTIVE;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+		private LocalDateTime updatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+		@PreUpdate
+		protected void onUpdate() {
+				this.updatedAt = LocalDateTime.now();
+		}
 
-    // 댓글 상태 변경
-    public void updateStatus(Status status) {
-        this.status = status;
-    }
+		// 댓글 상태 변경
+		public void updateStatus(Status status) {
+				this.status = status;
+		}
 
-    // 댓글 내용 업데이트
-    public void updateContent(String content) {
-        this.content = content;
-    }
+		// 댓글 내용 업데이트
+		public void updateContent(String content) {
+				this.content = content;
+		}
 
-    // 좋아요 수 증가
-    public void incrementLikeCount() {
-        this.likeCount++;
-    }
+		// 좋아요 수 증가
+		public void incrementLikeCount() {
+				this.likeCount++;
+		}
 
-    // 좋아요 수 감소
-    public void decrementLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount--;
-        }
-    }
+		// 좋아요 수 감소
+		public void decrementLikeCount() {
+				if (this.likeCount > 0) {
+						this.likeCount--;
+				}
+		}
 
-    // 답글 추가
-    public void addReply(Comment reply) {
-        this.replies.add(reply);
-        reply.setParent(this);
-    }
+		// 답글 추가
+		public void addReply(Comment reply) {
+				this.replies.add(reply);
+				reply.setParent(this);
+		}
 
-    // 부모 댓글 설정
-    private void setParent(Comment parent) {
-        this.parent = parent;
-    }
+		// 부모 댓글 설정
+		private void setParent(Comment parent) {
+				this.parent = parent;
+		}
 
-    // 댓글 상태 열거형
-    public enum Status {
-        ACTIVE,       // 활성화
-        DELETED,      // 삭제됨
-        HIDDEN,       // 숨겨짐
-        REPORTED      // 신고됨
-    }
+		// 댓글 상태 열거형
+		public enum Status {
+				ACTIVE,       // 활성화
+				DELETED,      // 삭제됨
+				HIDDEN,       // 숨겨짐
+				REPORTED      // 신고됨
+		}
 } 

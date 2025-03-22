@@ -30,104 +30,104 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @Column(nullable = false, unique = true)
-    private String email;
+		@Column(nullable = false, unique = true)
+		private String email;
 
-    @Column(nullable = false)
-    private String password;
+		@Column(nullable = false)
+		private String password;
 
-    @Column(nullable = false, unique = true)
-    private String nickname;
+		@Column(nullable = false, unique = true)
+		private String nickname;
 
-    private String profileImage;
+		private String profileImage;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private UserStatus status = UserStatus.ACTIVE;
+		@Enumerated(EnumType.STRING)
+		@Column(nullable = false)
+		@Builder.Default
+		private UserStatus status = UserStatus.ACTIVE;
 
-    @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
-    private Set<UserRole> roles = new HashSet<>();
+		@ElementCollection(fetch = FetchType.EAGER)
+		@Builder.Default
+		private Set<UserRole> roles = new HashSet<>();
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+		private LocalDateTime updatedAt;
 
-    private LocalDateTime lastLoginAt;
+		private LocalDateTime lastLoginAt;
 
-    private boolean emailVerified;
+		private boolean emailVerified;
 
-    // 시/도, 시/군/구, 상세지역
-    private String sido;
-    private String sigungu;
-    private String detailRegion;
+		// 시/도, 시/군/구, 상세지역
+		private String sido;
+		private String sigungu;
+		private String detailRegion;
 
-    // 관심 카테고리
-    @ElementCollection
-    @Builder.Default
-    private Set<String> interests = new HashSet<>();
+		// 관심 카테고리
+		@ElementCollection
+		@Builder.Default
+		private Set<String> interests = new HashSet<>();
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+		@PreUpdate
+		protected void onUpdate() {
+				this.updatedAt = LocalDateTime.now();
+		}
 
-    // 사용자 상태 업데이트
-    public void updateStatus(UserStatus status) {
-        this.status = status;
-    }
+		// 사용자 상태 업데이트
+		public void updateStatus(UserStatus status) {
+				this.status = status;
+		}
 
-    // 마지막 로그인 시간 업데이트
-    public void updateLastLogin() {
-        this.lastLoginAt = LocalDateTime.now();
-    }
+		// 마지막 로그인 시간 업데이트
+		public void updateLastLogin() {
+				this.lastLoginAt = LocalDateTime.now();
+		}
 
-    // 이메일 인증 처리
-    public void verifyEmail() {
-        this.emailVerified = true;
-    }
+		// 이메일 인증 처리
+		public void verifyEmail() {
+				this.emailVerified = true;
+		}
 
-    // 프로필 정보 업데이트
-    public void updateProfile(String nickname, String profileImage) {
-        this.nickname = nickname;
-        this.profileImage = profileImage;
-    }
+		// 프로필 정보 업데이트
+		public void updateProfile(String nickname, String profileImage) {
+				this.nickname = nickname;
+				this.profileImage = profileImage;
+		}
 
-    // 지역 정보 업데이트
-    public void updateRegion(String sido, String sigungu, String detailRegion) {
-        this.sido = sido;
-        this.sigungu = sigungu;
-        this.detailRegion = detailRegion;
-    }
+		// 지역 정보 업데이트
+		public void updateRegion(String sido, String sigungu, String detailRegion) {
+				this.sido = sido;
+				this.sigungu = sigungu;
+				this.detailRegion = detailRegion;
+		}
 
-    // 관심사 업데이트
-    public void updateInterests(Set<String> interests) {
-        this.interests = interests;
-    }
+		// 관심사 업데이트
+		public void updateInterests(Set<String> interests) {
+				this.interests = interests;
+		}
 
-    // 비밀번호 변경
-    public void updatePassword(String encodedPassword) {
-        this.password = encodedPassword;
-    }
+		// 비밀번호 변경
+		public void updatePassword(String encodedPassword) {
+				this.password = encodedPassword;
+		}
 
-    // 권한 추가
-    public void addRole(UserRole role) {
-        this.roles.add(role);
-    }
+		// 권한 추가
+		public void addRole(UserRole role) {
+				this.roles.add(role);
+		}
 
-    // 권한 제거
-    public void removeRole(UserRole role) {
-        this.roles.remove(role);
-    }
+		// 권한 제거
+		public void removeRole(UserRole role) {
+				this.roles.remove(role);
+		}
 } 

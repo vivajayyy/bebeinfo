@@ -25,13 +25,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-    name = "likes",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_likes_user_target",
-            columnNames = {"user_id", "target_type", "target_id"}
-        )
-    }
+		name = "likes",
+		uniqueConstraints = {
+				@UniqueConstraint(
+						name = "uk_likes_user_target",
+						columnNames = {"user_id", "target_type", "target_id"}
+				)
+		}
 )
 @Getter
 @Builder
@@ -39,32 +39,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Like {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id", nullable = false)
+		private User user;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "target_type", nullable = false)
-    private TargetType targetType;
+		@Enumerated(EnumType.STRING)
+		@Column(name = "target_type", nullable = false)
+		private TargetType targetType;
 
-    @Column(name = "target_id", nullable = false)
-    private Long targetId;
+		@Column(name = "target_id", nullable = false)
+		private Long targetId;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 
-    // 좋아요 대상 타입 열거형
-    public enum TargetType {
-        POST,       // 게시글
-        COMMENT     // 댓글
-    }
+		// 좋아요 대상 타입 열거형
+		public enum TargetType {
+				POST,       // 게시글
+				COMMENT     // 댓글
+		}
 } 

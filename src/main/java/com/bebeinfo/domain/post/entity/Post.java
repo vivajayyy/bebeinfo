@@ -40,153 +40,154 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Post {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
-    private Board board;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "board_id", nullable = false)
+		private Board board;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private BoardCategory category;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "category_id")
+		private BoardCategory category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User author;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id", nullable = false)
+		private User author;
 
-    @Column(nullable = false)
-    private String title;
+		@Column(nullable = false)
+		private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+		@Column(nullable = false, columnDefinition = "TEXT")
+		private String content;
 
-    @Column(nullable = false)
-    private long viewCount;
+		@Column(nullable = false)
+		private long viewCount;
 
-    @Column(nullable = false)
-    private long likeCount;
+		@Column(nullable = false)
+		private long likeCount;
 
-    @Column(nullable = false)
-    private long commentCount;
+		@Column(nullable = false)
+		private long commentCount;
 
-    @ElementCollection
-    @Builder.Default
-    private Set<String> tags = new HashSet<>();
+		@ElementCollection
+		@Builder.Default
+		private Set<String> tags = new HashSet<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<PostImage> images = new ArrayList<>();
+		@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+		@Builder.Default
+		private List<PostImage> images = new ArrayList<>();
 
-    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
-    @Builder.Default
-    private List<PostAttachment> attachments = new ArrayList<>();
+		@OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+		@Builder.Default
+		private List<PostAttachment> attachments = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private Visibility visibility = Visibility.PUBLIC;
+		@Enumerated(EnumType.STRING)
+		@Column(nullable = false)
+		@Builder.Default
+		private Visibility visibility = Visibility.PUBLIC;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    @Builder.Default
-    private Status status = Status.ACTIVE;
+		@Enumerated(EnumType.STRING)
+		@Column(nullable = false)
+		@Builder.Default
+		private Status status = Status.ACTIVE;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+		private LocalDateTime updatedAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+		@PreUpdate
+		protected void onUpdate() {
+				this.updatedAt = LocalDateTime.now();
+		}
 
-    // 게시글 상태 변경
-    public void updateStatus(Status status) {
-        this.status = status;
-    }
+		// 게시글 상태 변경
+		public void updateStatus(Status status) {
+				this.status = status;
+		}
 
-    // 게시글 내용 업데이트
-    public void updateContent(String title, String content, BoardCategory category, Set<String> tags, Visibility visibility) {
-        this.title = title;
-        this.content = content;
-        this.category = category;
-        this.tags = tags;
-        this.visibility = visibility;
-    }
+		// 게시글 내용 업데이트
+		public void updateContent(String title, String content, BoardCategory category,
+				Set<String> tags, Visibility visibility) {
+				this.title = title;
+				this.content = content;
+				this.category = category;
+				this.tags = tags;
+				this.visibility = visibility;
+		}
 
-    // 조회수 증가
-    public void incrementViewCount() {
-        this.viewCount++;
-    }
+		// 조회수 증가
+		public void incrementViewCount() {
+				this.viewCount++;
+		}
 
-    // 좋아요 수 증가
-    public void incrementLikeCount() {
-        this.likeCount++;
-    }
+		// 좋아요 수 증가
+		public void incrementLikeCount() {
+				this.likeCount++;
+		}
 
-    // 좋아요 수 감소
-    public void decrementLikeCount() {
-        if (this.likeCount > 0) {
-            this.likeCount--;
-        }
-    }
+		// 좋아요 수 감소
+		public void decrementLikeCount() {
+				if (this.likeCount > 0) {
+						this.likeCount--;
+				}
+		}
 
-    // 댓글 수 증가
-    public void incrementCommentCount() {
-        this.commentCount++;
-    }
+		// 댓글 수 증가
+		public void incrementCommentCount() {
+				this.commentCount++;
+		}
 
-    // 댓글 수 감소
-    public void decrementCommentCount() {
-        if (this.commentCount > 0) {
-            this.commentCount--;
-        }
-    }
+		// 댓글 수 감소
+		public void decrementCommentCount() {
+				if (this.commentCount > 0) {
+						this.commentCount--;
+				}
+		}
 
-    // 이미지 추가
-    public void addImage(PostImage image) {
-        this.images.add(image);
-        image.setPost(this);
-    }
+		// 이미지 추가
+		public void addImage(PostImage image) {
+				this.images.add(image);
+				image.setPost(this);
+		}
 
-    // 이미지 제거
-    public void removeImage(PostImage image) {
-        this.images.remove(image);
-        image.setPost(null);
-    }
+		// 이미지 제거
+		public void removeImage(PostImage image) {
+				this.images.remove(image);
+				image.setPost(null);
+		}
 
-    // 첨부파일 추가
-    public void addAttachment(PostAttachment attachment) {
-        this.attachments.add(attachment);
-        attachment.setPost(this);
-    }
+		// 첨부파일 추가
+		public void addAttachment(PostAttachment attachment) {
+				this.attachments.add(attachment);
+				attachment.setPost(this);
+		}
 
-    // 첨부파일 제거
-    public void removeAttachment(PostAttachment attachment) {
-        this.attachments.remove(attachment);
-        attachment.setPost(null);
-    }
+		// 첨부파일 제거
+		public void removeAttachment(PostAttachment attachment) {
+				this.attachments.remove(attachment);
+				attachment.setPost(null);
+		}
 
-    // 공개 범위 열거형
-    public enum Visibility {
-        PUBLIC,    // 전체 공개
-        FRIENDS,   // 친구에게만 공개
-        PRIVATE    // 나만 보기
-    }
+		// 공개 범위 열거형
+		public enum Visibility {
+				PUBLIC,    // 전체 공개
+				FRIENDS,   // 친구에게만 공개
+				PRIVATE    // 나만 보기
+		}
 
-    // 게시글 상태 열거형
-    public enum Status {
-        ACTIVE,       // 활성화
-        DELETED,      // 삭제됨
-        HIDDEN,       // 숨겨짐
-        REPORTED      // 신고됨
-    }
+		// 게시글 상태 열거형
+		public enum Status {
+				ACTIVE,       // 활성화
+				DELETED,      // 삭제됨
+				HIDDEN,       // 숨겨짐
+				REPORTED      // 신고됨
+		}
 } 

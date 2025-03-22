@@ -28,59 +28,59 @@ import lombok.Setter;
 @AllArgsConstructor
 public class BoardCategory {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", nullable = false)
-    @Setter // Board 클래스에서 양방향 관계 설정을 위해 필요
-    private Board board;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "board_id", nullable = false)
+		@Setter // Board 클래스에서 양방향 관계 설정을 위해 필요
+		private Board board;
 
-    @Column(nullable = false)
-    private String name;
+		@Column(nullable = false)
+		private String name;
 
-    @Column(nullable = false)
-    private int orderNum;  // 카테고리 정렬 순서
+		@Column(nullable = false)
+		private int orderNum;  // 카테고리 정렬 순서
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    private LocalDateTime updatedAt;
+		private LocalDateTime updatedAt;
 
-    // 게시글 수 (캐시)
-    private long postCount;
+		// 게시글 수 (캐시)
+		private long postCount;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
 
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+		@PreUpdate
+		protected void onUpdate() {
+				this.updatedAt = LocalDateTime.now();
+		}
 
-    // 게시글 수 업데이트
-    public void updatePostCount(long count) {
-        this.postCount = count;
-    }
+		// 게시글 수 업데이트
+		public void updatePostCount(long count) {
+				this.postCount = count;
+		}
 
-    // 게시글 수 증가
-    public void incrementPostCount() {
-        this.postCount++;
-    }
+		// 게시글 수 증가
+		public void incrementPostCount() {
+				this.postCount++;
+		}
 
-    // 게시글 수 감소
-    public void decrementPostCount() {
-        if (this.postCount > 0) {
-            this.postCount--;
-        }
-    }
+		// 게시글 수 감소
+		public void decrementPostCount() {
+				if (this.postCount > 0) {
+						this.postCount--;
+				}
+		}
 
-    // 카테고리 정보 업데이트
-    public void update(String name, int orderNum) {
-        this.name = name;
-        this.orderNum = orderNum;
-    }
+		// 카테고리 정보 업데이트
+		public void update(String name, int orderNum) {
+				this.name = name;
+				this.orderNum = orderNum;
+		}
 } 

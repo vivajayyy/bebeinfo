@@ -23,13 +23,13 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Table(
-    name = "bookmarks",
-    uniqueConstraints = {
-        @UniqueConstraint(
-            name = "uk_bookmarks_user_post",
-            columnNames = {"user_id", "post_id"}
-        )
-    }
+		name = "bookmarks",
+		uniqueConstraints = {
+				@UniqueConstraint(
+						name = "uk_bookmarks_user_post",
+						columnNames = {"user_id", "post_id"}
+				)
+		}
 )
 @Getter
 @Builder
@@ -37,23 +37,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Bookmark {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+		@Id
+		@GeneratedValue(strategy = GenerationType.IDENTITY)
+		private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "user_id", nullable = false)
+		private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post post;
+		@ManyToOne(fetch = FetchType.LAZY)
+		@JoinColumn(name = "post_id", nullable = false)
+		private Post post;
 
-    @Column(nullable = false)
-    private LocalDateTime createdAt;
+		@Column(nullable = false)
+		private LocalDateTime createdAt;
 
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-    }
-} 
+		@PrePersist
+		protected void onCreate() {
+				this.createdAt = LocalDateTime.now();
+		}
+}
+

@@ -14,31 +14,32 @@ import org.slf4j.LoggerFactory;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+		private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(Exception.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public String handleException(Exception e, Model model, HttpServletRequest request) {
-        logger.error("Request: {} raised {}", request.getRequestURL(), e);
-        
-        model.addAttribute("exception", e);
-        model.addAttribute("url", request.getRequestURL());
-        model.addAttribute("message", e.getMessage());
-        
-        return "error/error";
-    }
+		@ExceptionHandler(Exception.class)
+		@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+		public String handleException(Exception e, Model model, HttpServletRequest request) {
+				logger.error("Request: {} raised {}", request.getRequestURL(), e);
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleIllegalArgumentException(IllegalArgumentException e, Model model, HttpServletRequest request) {
-        logger.error("Request: {} raised {}", request.getRequestURL(), e);
-        
-        model.addAttribute("exception", e);
-        model.addAttribute("url", request.getRequestURL());
-        model.addAttribute("message", e.getMessage());
-        
-        return "error/400";
-    }
+				model.addAttribute("exception", e);
+				model.addAttribute("url", request.getRequestURL());
+				model.addAttribute("message", e.getMessage());
 
-    // 추가적인 예외 핸들러들을 필요에 따라 구현
+				return "error/error";
+		}
+
+		@ExceptionHandler(IllegalArgumentException.class)
+		@ResponseStatus(HttpStatus.BAD_REQUEST)
+		public String handleIllegalArgumentException(IllegalArgumentException e, Model model,
+				HttpServletRequest request) {
+				logger.error("Request: {} raised {}", request.getRequestURL(), e);
+
+				model.addAttribute("exception", e);
+				model.addAttribute("url", request.getRequestURL());
+				model.addAttribute("message", e.getMessage());
+
+				return "error/400";
+		}
+
+		// 추가적인 예외 핸들러들을 필요에 따라 구현
 } 

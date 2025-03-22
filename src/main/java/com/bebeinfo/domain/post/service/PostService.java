@@ -18,138 +18,139 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class PostService {
 
-    private final PostRepository postRepository;
+	private final PostRepository postRepository;
 
-    /**
-     * 게시글 생성
-     * 
-     * @param post 저장할 게시글 엔티티
-     * @return 저장된 게시글 엔티티
-     */
-    @Transactional
-    public Post createPost(Post post) {
-        return postRepository.save(post);
-    }
+	/**
+	 * 게시글 생성
+	 *
+	 * @param post 저장할 게시글 엔티티
+	 * @return 저장된 게시글 엔티티
+	 */
+	@Transactional
+	public Post savePost(Post post) {
+		return postRepository.save(post);
+	}
 
-    /**
-     * 게시글 수정
-     * 
-     * @param post 수정할 게시글 엔티티
-     * @return 수정된 게시글 엔티티
-     */
-    @Transactional
-    public Post updatePost(Post post) {
-        return postRepository.save(post);
-    }
-    
-    /**
-     * 게시글 삭제
-     * 
-     * @param post 삭제할 게시글 엔티티
-     */
-    @Transactional
-    public void deletePost(Post post) {
-        postRepository.delete(post);
-    }
+	/**
+	 * 게시글 수정
+	 *
+	 * @param post 수정할 게시글 엔티티
+	 * @return 수정된 게시글 엔티티
+	 */
+	@Transactional
+	public Post modifyPost(Post post) {
+		return postRepository.save(post);
+	}
 
-    /**
-     * ID로 게시글 조회
-     * 
-     * @param postId 게시글 ID
-     * @return 조회된 게시글 엔티티
-     * @throws IllegalArgumentException ErrorCode.POST_NOT_FOUND 게시글이 존재하지 않을 경우
-     */
-    @Transactional(readOnly = true)
-    public Post getPost(Long postId) {
-        return postRepository.findById(postId)
-            .orElseThrow(() -> new IllegalArgumentException(ErrorCode.POST_NOT_FOUND.getMessage()));
-    }
+	/**
+	 * 게시글 삭제
+	 *
+	 * @param post 삭제할 게시글 엔티티
+	 */
+	@Transactional
+	public void removePost(Post post) {
+		postRepository.delete(post);
+	}
 
-    /**
-     * 모든 게시글 조회
-     * 
-     * @return 모든 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPosts() {
-        return postRepository.findAll();
-    }
+	/**
+	 * ID로 게시글 조회
+	 *
+	 * @param postId 게시글 ID
+	 * @return 조회된 게시글 엔티티
+	 * @throws IllegalArgumentException ErrorCode.POST_NOT_FOUND 게시글이 존재하지 않을 경우
+	 */
+	@Transactional(readOnly = true)
+	public Post findPost(Long postId) {
+		return postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException(ErrorCode.POST_NOT_FOUND.getMessage()));
+	}
 
-    /**
-     * 사용자 ID로 게시글 조회
-     * 
-     * @param userId 사용자 ID
-     * @return 해당 사용자가 작성한 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByUserId(Long userId) {
-        return postRepository.findByAuthorId(userId);
-    }
+	/**
+	 * 모든 게시글 조회
+	 *
+	 * @return 모든 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findAllPosts() {
+		return postRepository.findAll();
+	}
 
-    /**
-     * 카테고리로 게시글 조회
-     * 
-     * @param categoryId 카테고리 ID
-     * @return 해당 카테고리의 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByCategory(Long categoryId) {
-        return postRepository.findByCategoryId(categoryId);
-    }
+	/**
+	 * 사용자 ID로 게시글 조회
+	 *
+	 * @param userId 사용자 ID
+	 * @return 해당 사용자가 작성한 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByUserId(Long userId) {
+		return postRepository.findByAuthorId(userId);
+	}
 
-    /**
-     * 게시판 ID로 게시글 조회
-     * 
-     * @param boardId 게시판 ID
-     * @return 해당 게시판의 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByBoard(Long boardId) {
-        return postRepository.findByBoardId(boardId);
-    }
+	/**
+	 * 카테고리로 게시글 조회
+	 *
+	 * @param categoryId 카테고리 ID
+	 * @return 해당 카테고리의 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByCategory(Long categoryId) {
+		return postRepository.findByCategoryId(categoryId);
+	}
 
-    /**
-     * 태그로 게시글 조회
-     * 
-     * @param tag 검색할 태그
-     * @return 해당 태그가 포함된 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByTag(String tag) {
-        return postRepository.findByTagsContaining(tag);
-    }
+	/**
+	 * 게시판 ID로 게시글 조회
+	 *
+	 * @param boardId 게시판 ID
+	 * @return 해당 게시판의 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByBoard(Long boardId) {
+		return postRepository.findByBoardId(boardId);
+	}
 
-    /**
-     * 제목으로 게시글 검색
-     * 
-     * @param title 검색할 제목 키워드
-     * @return 제목에 키워드가 포함된 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByTitle(String title) {
-        return postRepository.findByTitleContaining(title);
-    }
+	/**
+	 * 태그로 게시글 조회
+	 *
+	 * @param tag 검색할 태그
+	 * @return 해당 태그가 포함된 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByTag(String tag) {
+		return postRepository.findByTagsContaining(tag);
+	}
 
-    /**
-     * 내용으로 게시글 검색
-     * 
-     * @param content 검색할 내용 키워드
-     * @return 내용에 키워드가 포함된 게시글 목록
-     */
-    @Transactional(readOnly = true)
-    public List<Post> getPostsByContent(String content) {
-        return postRepository.findByContentContaining(content);
-    }
+	/**
+	 * 제목으로 게시글 검색
+	 *
+	 * @param title 검색할 제목 키워드
+	 * @return 제목에 키워드가 포함된 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByTitle(String title) {
+		return postRepository.findByTitleContaining(title);
+	}
 
-    /**
-     * 게시글 조회수 증가
-     * 
-     * @param postId 조회수를 증가시킬 게시글 ID
-     */
-    @Transactional
-    public void incrementViewCount(Long postId) {
-        Post post = getPost(postId);
-        post.incrementViewCount();
-        postRepository.save(post);
-    }
+	/**
+	 * 내용으로 게시글 검색
+	 *
+	 * @param content 검색할 내용 키워드
+	 * @return 내용에 키워드가 포함된 게시글 목록
+	 */
+	@Transactional(readOnly = true)
+	public List<Post> findPostsByContent(String content) {
+		return postRepository.findByContentContaining(content);
+	}
+
+	/**
+	 * 게시글 조회수 증가
+	 *
+	 * @param postId 조회수를 증가시킬 게시글 ID
+	 */
+	@Transactional
+	public void incrementViewCount(Long postId) {
+		Post post = postRepository.findById(postId)
+			.orElseThrow(() -> new IllegalArgumentException(ErrorCode.POST_NOT_FOUND.getMessage()));
+		post.incrementViewCount();
+		postRepository.save(post);
+	}
 }
